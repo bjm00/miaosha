@@ -35,9 +35,9 @@ public class SampleController {
 
     @RequestMapping("/redis/get")
     @ResponseBody
-    public Result<User> redisGetById() {
-        User user = redisService.getById(1);
-        return Result.success(user);
+    public Result<String> redisGetByKey() {
+        String value = redisService.get("1", String.class);
+        return Result.success(value);
     }
 
     @RequestMapping("/db/tx")
