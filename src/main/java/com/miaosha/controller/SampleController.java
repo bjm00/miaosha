@@ -1,7 +1,9 @@
 package com.miaosha.controller;
 
 import com.miaosha.domain.User;
+import com.miaosha.redis.KeyPrefix;
 import com.miaosha.redis.RedisService;
+import com.miaosha.redis.UserKey;
 import com.miaosha.resultcode.Result;
 import com.miaosha.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +37,17 @@ public class SampleController {
 
     @RequestMapping("/redis/get")
     @ResponseBody
-    public Result<String> redisGetByKey() {
-        String value = redisService.get("1", String.class);
-        return Result.success(value);
+    public Result<User> redisGetByKey() {
+        User user = redisService.get(UserKey.getById, "1", User.class);
+        return Result.success(user);
+    }
+
+    @RequestMapping("/redis/set")
+    @ResponseBody
+    public Result<Boolean> redisSet() {
+        User user = new User(1, "晨拥");
+        boolean res = redisService.set(UserKey.getById, "1", user);
+        return Result.success(res);
     }
 
     @RequestMapping("/db/tx")
