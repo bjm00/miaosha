@@ -15,6 +15,10 @@ public class UserService {
         return userDao.getById(id);
     }
 
+//    public User getByPass(int pass) {
+//        return userDao.getById(id);
+//    }
+
     @Transactional
     public boolean tx() {
         User user = new User();
