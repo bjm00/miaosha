@@ -1,7 +1,9 @@
 package com.miaosha.service;
 
 import com.miaosha.dao.UserDao;
+import com.miaosha.domain.MiaoshaUser;
 import com.miaosha.domain.User;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

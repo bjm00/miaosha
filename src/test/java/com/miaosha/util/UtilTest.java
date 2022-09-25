@@ -19,9 +19,9 @@ public class UtilTest {
     }
     @Test
     public void test2() throws Exception {
-        String src = "123abc";
+        String src = "123456";
         String s = Md5Util.inputMd5FormPass(src);
-        String dbPass = Md5Util.FormPassMd5DbPass(s,"123456");
+        String dbPass = Md5Util.FormPassMd5DbPass(s,"1a2b3c");
         System.out.println(s);
         System.out.println(dbPass);
     }

@@ -1,5 +1,6 @@
-package com.miaosha.utils;
+package com.miaosha.validator;
 
+import com.miaosha.utils.ValidatorUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ConstraintValidator;

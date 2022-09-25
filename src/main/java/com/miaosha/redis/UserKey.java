@@ -1,6 +1,6 @@
 package com.miaosha.redis;
 
-public class UserKey extends BasePrefix{
+public class UserKey extends BasePrefix {
     public UserKey(String prefix) {
         super(prefix);
     }

@@ -1,4 +1,4 @@
-package com.miaosha.utils;
+package com.miaosha.validator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

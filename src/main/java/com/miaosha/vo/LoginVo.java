@@ -2,7 +2,7 @@ package com.miaosha.vo;
 
 import javax.validation.constraints.NotNull;
 
-import com.miaosha.utils.IsMobile;
+import com.miaosha.validator.IsMobile;
 import org.hibernate.validator.constraints.Length;
 
 //import com.imooc.miaosha.validator.IsMobile;
