@@ -37,37 +37,9 @@ public class GoodsController {
     MiaoshaUserService miaoshaUserService;
 
     @RequestMapping("/to_list")
-    public String toList(Model model, @CookieValue(value = MiaoshaUserService.COOKIE_TOKEN, required = false) String cookieToken,
-                         @RequestParam(value = MiaoshaUserService.COOKIE_TOKEN, required = false) String paramToken) {
-        if (StringUtils.isEmpty(cookieToken) && StringUtils.isEmpty(paramToken)) {
-            return "login";
-        }
-        String token = StringUtils.isEmpty(cookieToken) ? paramToken : cookieToken;
-        MiaoshaUser miaoshaUser = miaoshaUserService.getByToken(token);
+    public String toList(Model model, MiaoshaUser miaoshaUser) {
         model.addAttribute("user", miaoshaUser);
         return "goods_list";
-    }
-
-    @RequestMapping("/do_login")
-    @ResponseBody
-    public Result<Boolean> doLogin(@Valid LoginVo loginVo, HttpServletResponse response) {
-        log.info(loginVo.toString());
-//        //参数校验
-//        String password = loginVo.getPassword();
-//        String mobile = loginVo.getMobile();
-//        if (StringUtils.isEmpty(password)) {
-//            return Result.error(CodeMsg.PASSWORD_EMPTY);
-//        }
-//        if (StringUtils.isEmpty(mobile)) {
-//            return Result.error(CodeMsg.MOBILE_EMPTY);
-//        } else if (!ValidatorUtil.isMobile(mobile)) {
-//            return Result.error(CodeMsg.MOBILE_ERROR);
-//        }
-        //登录
-        miaoshaUserService.login(loginVo, response);
-
-        return Result.success(true);
-
     }
 
 }
