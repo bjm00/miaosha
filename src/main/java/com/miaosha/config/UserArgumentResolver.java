@@ -25,15 +25,33 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
     @Autowired
     UserService userService;
 
-
+    /**
+     * 该方法用于判断Controller中方法参数中是否有符合条件的参数：
+     * 有则进入下一个方法resolveArgument；
+     * 没有则跳过不做处理
+     *
+     * @param methodParameter
+     * @return
+     */
     @Override
     public boolean supportsParameter(MethodParameter methodParameter) {
         Class<?> parameterType = methodParameter.getParameterType();
         return parameterType == MiaoshaUser.class;
     }
 
+    /**
+     * 该方法在上一个方法同通过之后调用：
+     *      在这里可以进行处理，根据情况返回对象——返回的对象将被赋值到Controller的方法的参数中
+     * @param methodParameter
+     * @param modelAndViewContainer
+     * @param nativeWebRequest
+     * @param webDataBinderFactory
+     * @return
+     * @throws Exception
+     */
     @Override
-    public Object resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory) throws Exception {
+    public Object resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer,
+                                  NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory) throws Exception {
 
         HttpServletRequest nativeRequest = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
         HttpServletResponse nativeResponse = nativeWebRequest.getNativeResponse(HttpServletResponse.class);
