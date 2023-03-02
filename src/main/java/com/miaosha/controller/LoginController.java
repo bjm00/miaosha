@@ -1,7 +1,6 @@
 package com.miaosha.controller;
 
 import com.miaosha.redis.RedisService;
-import com.miaosha.resultcode.CodeMsg;
 import com.miaosha.resultcode.Result;
 import com.miaosha.service.MiaoshaUserService;
 import com.miaosha.service.UserService;
@@ -10,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -33,7 +31,7 @@ public class LoginController {
     MiaoshaUserService miaoshaUserService;
 
     @RequestMapping("/to_login")
-    public String toLogin(Model model) {
+    public String toLogin() {
         return "login";
     }
 
