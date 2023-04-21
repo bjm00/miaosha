@@ -2,22 +2,17 @@ package com.miaosha.service;
 
 import com.miaosha.dao.MiaoshaUserDao;
 import com.miaosha.dao.OrderDao;
-import com.miaosha.domain.MiaoshaGoods;
 import com.miaosha.domain.MiaoshaOrder;
 import com.miaosha.domain.MiaoshaUser;
-import com.miaosha.exception.GlobalException;
-import com.miaosha.redis.MiaoshaUserKey;
-import com.miaosha.redis.RedisService;
-import com.miaosha.resultcode.CodeMsg;
-import com.miaosha.utils.Md5Util;
-import com.miaosha.utils.UUIDUtil;
-import com.miaosha.vo.LoginVo;
-import org.apache.commons.lang3.StringUtils;
+import com.miaosha.domain.OrderInfo;
+import com.miaosha.enums.OrderChannel;
+import com.miaosha.enums.OrderStatus;
+import com.miaosha.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 
 @Service
 public class OrderService {
@@ -29,28 +24,28 @@ public class OrderService {
     OrderDao orderDao;
 
     public MiaoshaOrder getMiaoshaOrderByGoodsIdUserId(long userId, long goodsId) {
-        if (loginVo == null) {
-            throw new GlobalException(CodeMsg.SERVER_ERROR);
-        }
 
-        String password = loginVo.getPassword();
-        String mobile = loginVo.getMobile();
-        MiaoshaUser miaoshaUser = getById(Long.parseLong(mobile));
-        if (miaoshaUser == null) {
-            throw new GlobalException(CodeMsg.MOBILE_NOT_EXIST);
-        }
-
-        //验证密码
-        String dbPassword = miaoshaUser.getPassword();
-        String dbSalt = miaoshaUser.getSalt();
-        String calcPass = Md5Util.FormPassMd5DbPass(password, dbSalt);
-        if (!StringUtils.equals(calcPass, dbPassword)) {
-            throw new GlobalException(CodeMsg.PASSWORD_ERROR);
-        }
-        //生成token
-        String token = UUIDUtil.genRandomString();
-        addCookie(response, token, miaoshaUser);
-        return true;
+        return orderDao.getMiaoshaOrderByGoodsIdUserId(userId, goodsId);
     }
 
+    @Transactional
+    public OrderInfo createOrder(MiaoshaUser user, GoodsVo goods) {
+        OrderInfo orderInfo = new OrderInfo();
+        orderInfo.setCreateDate(new Date());
+        orderInfo.setDeliveryAddrId(0L);
+        orderInfo.setGoodsCount(1);
+        orderInfo.setGoodsId(goods.getId());
+        orderInfo.setGoodsName(goods.getGoodsName());
+        orderInfo.setGoodsPrice(goods.getGoodsPrice());
+        orderInfo.setOrderChannel(OrderChannel.pc.getCode());
+        orderInfo.setStatus(OrderStatus.init.getCode());
+        orderInfo.setUserId(user.getId());
+        orderDao.insert(orderInfo);
+        MiaoshaOrder miaoshaOrder = new MiaoshaOrder();
+        miaoshaOrder.setOrderId(orderInfo.getId());
+        miaoshaOrder.setGoodsId(goods.getId());
+        miaoshaOrder.setUserId(user.getId());
+        orderDao.insertMiaoshaOrder(miaoshaOrder);
+        return orderInfo;
+    }
 }

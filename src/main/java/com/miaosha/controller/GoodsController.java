@@ -1,15 +1,11 @@
 package com.miaosha.controller;
 
 import com.miaosha.domain.MiaoshaUser;
-import com.miaosha.domain.User;
 import com.miaosha.redis.RedisService;
-import com.miaosha.resultcode.Result;
 import com.miaosha.service.GoodsService;
 import com.miaosha.service.MiaoshaUserService;
 import com.miaosha.service.UserService;
 import com.miaosha.vo.GoodsVo;
-import com.miaosha.vo.LoginVo;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -53,7 +47,7 @@ public class GoodsController {
                            @PathVariable("goodsId") long goodsId) {
         model.addAttribute("user", miaoshaUser);
         //查询商品列表
-        GoodsVo goodsVo = goodsService.getGoodsById(goodsId);
+        GoodsVo goodsVo = goodsService.getGoodsVoByGoodsId(goodsId);
         //
         long startTime = goodsVo.getStartDate().getTime();
         long endTime = goodsVo.getEndDate().getTime();
